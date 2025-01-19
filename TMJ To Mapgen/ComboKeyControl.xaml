@@ -6,21 +6,21 @@
              xmlns:local="clr-namespace:TMJ_To_Mapgen"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="600">
-    <Grid>
-		<Label Grid.Column="0" HorizontalAlignment="Right" Content="Furniture ID:"/>
+	<Grid>
+		<Label Grid.Column="0" HorizontalAlignment="Right" Content="Furniture ID:" Margin="-4,0,0,0" Width="75"/>
 		<TextBlock Grid.Column="1" TextWrapping="WrapWithOverflow" Text="Filled by Code"  Name="Furniture_ID_TextBlock"/>
-		<Label Grid.Column="2" HorizontalAlignment="Right" Content="Terrain ID:"/>
+		<Label Grid.Column="1" HorizontalAlignment="Right" Content="Terrain ID:" Width="63" Grid.ColumnSpan="2"/>
 		<TextBlock Grid.Column="3" TextWrapping="WrapWithOverflow" Text="Filled by Code"  Name="Terrain_ID_Label"/>
-		<Label Grid.Column="4" HorizontalAlignment="Right" Content="Map Key:"/>
+		<Label Grid.Column="3" HorizontalAlignment="Right" Content="Map Key:" Width="59" Grid.ColumnSpan="2"/>
 		<TextBox Grid.Column="5" Name="Map_Key_Textbox"/>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
+			<ColumnDefinition Width="71*"/>
+			<ColumnDefinition Width="129*"/>
+			<ColumnDefinition Width="60*"/>
+			<ColumnDefinition Width="140*"/>
+			<ColumnDefinition Width="56*"/>
+			<ColumnDefinition Width="144*"/>
 		</Grid.ColumnDefinitions>
-    </Grid>
+	</Grid>
 </UserControl>

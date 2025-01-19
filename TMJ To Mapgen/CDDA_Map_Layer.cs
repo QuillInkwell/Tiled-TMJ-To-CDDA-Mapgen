@@ -7,11 +7,11 @@ using System.IO;
 
 namespace TMJ_To_Mapgen
 {
-	class FusedMapLayer
+	class CDDA_Map_Layer
 	{
 		public List<TerrainFurnitureCombo> mapPoints;
 
-		public FusedMapLayer()
+		public CDDA_Map_Layer()
 		{
 			mapPoints = new List<TerrainFurnitureCombo>();
 		}

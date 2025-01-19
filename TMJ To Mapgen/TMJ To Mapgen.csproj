@@ -62,14 +62,13 @@
     <Compile Include="ComboKeyControl.xaml.cs">
       <DependentUpon>ComboKeyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FusedMap.cs" />
-    <Compile Include="FusedMapLayer.cs" />
+    <Compile Include="CDDA_Map.cs" />
+    <Compile Include="CDDA_Map_Layer.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="ManualPaletteDesigner.xaml.cs">
       <DependentUpon>ManualPaletteDesigner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Map.cs" />
-    <Compile Include="OvermapTile.cs" />
     <Compile Include="Palette.cs" />
     <Compile Include="TerrainFurnitureCombo.cs" />
     <Compile Include="Tileset.cs" />

@@ -7,13 +7,13 @@ using System.IO;
 
 namespace TMJ_To_Mapgen
 {
-	class FusedMap
+	class CDDA_Map
 	{
-		public List<FusedMapLayer> fusedMapLayers;
+		public List<CDDA_Map_Layer> cddaMapLayers;
 
-		public FusedMap()
+		public CDDA_Map()
 		{
-			fusedMapLayers = new List<FusedMapLayer>();
+			cddaMapLayers = new List<CDDA_Map_Layer>();
 		}
 
 		public string WriteMap(int mapWidth, int mapHeight)
@@ -21,7 +21,7 @@ namespace TMJ_To_Mapgen
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);
 
-			foreach(FusedMapLayer layer in fusedMapLayers)
+			foreach(CDDA_Map_Layer layer in cddaMapLayers)
 			{
 				sw.Write(layer.WriteLayer(mapWidth, mapHeight));
 			}

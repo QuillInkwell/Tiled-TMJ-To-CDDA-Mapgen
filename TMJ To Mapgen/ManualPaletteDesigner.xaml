@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TMJ_To_Mapgen"
         mc:Ignorable="d"
 		SizeChanged="Window_SizeChanged"
-        Title="ManualPaletteDesigner" Height="450" Width="800">
+        Title="ManualPaletteDesigner" Height="504.577" Width="830.057">
 	<StackPanel>
 		<StackPanel Orientation="Horizontal" >
 			<Label Content="Number of Unique Combos"/>
