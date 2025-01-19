@@ -1,0 +1,16 @@
+﻿<Window x:Class="TMJ_To_Mapgen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TMJ_To_Mapgen"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+	<Grid>
+		<Button Content="Load Tiled Map" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" Width="118" Click="LoadTileMap_Button"/>
+		<Button Content="Load Palette" HorizontalAlignment="Left" Margin="333,113,0,0" VerticalAlignment="Top" Width="111" Click="LoadPalette_Button"/>
+		<CheckBox Content="Manual Palette Designer" Name="ManualPaletteCheckbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="157,79,0,0" RenderTransformOrigin="0.34,0.86"/>
+		<CheckBox Content="Split Furniture and Terrain" Name="SplitFurnitureAndTerrainCheckbox" HorizontalAlignment="Left" Margin="157,101,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.394,-0.735"/>
+
+	</Grid>
+</Window>

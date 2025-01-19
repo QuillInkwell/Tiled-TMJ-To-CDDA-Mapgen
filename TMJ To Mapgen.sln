@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34601.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMJ To Mapgen", "TMJ To Mapgen\TMJ To Mapgen.csproj", "{A6178C8A-1045-4465-8472-9A1FEA105191}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6178C8A-1045-4465-8472-9A1FEA105191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6178C8A-1045-4465-8472-9A1FEA105191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6178C8A-1045-4465-8472-9A1FEA105191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6178C8A-1045-4465-8472-9A1FEA105191}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FC474D7-0AA7-41B9-B50C-90236D2EC2E6}
+	EndGlobalSection
+EndGlobal

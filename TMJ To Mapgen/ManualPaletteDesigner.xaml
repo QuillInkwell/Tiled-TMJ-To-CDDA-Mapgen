@@ -1,0 +1,22 @@
+﻿<Window x:Class="TMJ_To_Mapgen.ManualPaletteDesigner"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TMJ_To_Mapgen"
+        mc:Ignorable="d"
+		SizeChanged="Window_SizeChanged"
+        Title="ManualPaletteDesigner" Height="450" Width="800">
+	<StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Number of Unique Combos"/>
+			<Label Name="CombosNumberLabel"/>
+		</StackPanel>
+		<ScrollViewer Name="Scroll_Window" MinHeight="400">
+			<StackPanel Name="Stacker">
+
+			</StackPanel>
+		</ScrollViewer>
+		<Button Content="Export" Click="Button_Click"/>
+	</StackPanel>
+</Window>
