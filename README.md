@@ -9,11 +9,11 @@ won't be able to do the conversion properly.
 
 I use Asesprite personally but along as you use a pixel art porgram you should be good. I don't super recomend standard image editing software. I found Affinity Photo would introduce wierd anti-aliasing whenever I copied sprites over which was annoying to deal
 with and changed the look of sprites.
-
-![image](https://github.com/user-attachments/assets/17f59899-a95f-4f36-8c1c-31381781cfbe)
+\
+![image](https://github.com/user-attachments/assets/17f59899-a95f-4f36-8c1c-31381781cfbe)\
 Example of a Tileset
-
-![image](https://github.com/user-attachments/assets/b7517674-30b3-4e43-9782-9279dea261a8)
+\
+![image](https://github.com/user-attachments/assets/b7517674-30b3-4e43-9782-9279dea261a8)\
 You can add a property by having a tile selected and right clicking anywhere in the custom properties panel or the blue + in the corner. You can't do this from the maps you need to be on the Tileset itself.
 
 You can use different size tilesets to be able to use the tall and large graphics alongside the normal graphics. But they won't always display correctly.
@@ -44,8 +44,8 @@ Fill Terrain is mostly cosmetic and useful for setting your ground cover actuall
 Terrain overrides the Fill Terrain with whatever tiles it ha.
 Furniture is self evident and doesn't have any special behavior.
 
-So a full map would look like:
-![image](https://github.com/user-attachments/assets/48e90380-9712-4f4e-95b4-dbc5ad76c40c)
+So a full map would look like:\
+![image](https://github.com/user-attachments/assets/48e90380-9712-4f4e-95b4-dbc5ad76c40c)\
 
 Don't add any extra layers because that will upset and confuse the exporter greatly. I currently don't support adding any objects primarily because I find it easier to just do the finishing touches in JSON. This tool is more like a useful way to knock out
 the bulk of the mapping work in a big project. But isn't yet intended to take you all the way to the finish line. The Tiled Co-ordinates do match up perfectly with cdda co-ordinates so you can use that as a super easy hack whenever you need an x and y.
@@ -54,23 +54,19 @@ the bulk of the mapping work in a big project. But isn't yet intended to take yo
 ***
 IMPORTANT:
 You want to Export your tiled maps as TMJ. Additionally be sure to enable embeding your tilesets so the exporter can read the id data:
-You find the options in the preferences menu under the edit drop down.
-![image](https://github.com/user-attachments/assets/936b57a4-4620-455f-b8db-63417cbec59d)
-
-![image](https://github.com/user-attachments/assets/141755c1-f107-4049-a85a-d5a3213a143e)
-The Exporter will always generate a palette file and Map for you which look like this:
-![image](https://github.com/user-attachments/assets/307f8623-053c-487c-826d-64226415f131)
-Output map
-![image](https://github.com/user-attachments/assets/b370a227-baf8-4768-ad1c-0f3394fb5da2)
+You find the options in the preferences menu under the edit drop down.\
+![image](https://github.com/user-attachments/assets/936b57a4-4620-455f-b8db-63417cbec59d)\
+\
+![image](https://github.com/user-attachments/assets/141755c1-f107-4049-a85a-d5a3213a143e)\
+The Exporter will always generate a palette file and Map for you which look like this:\
+![image](https://github.com/user-attachments/assets/307f8623-053c-487c-826d-64226415f131)\
+Output map\
+![image](https://github.com/user-attachments/assets/b370a227-baf8-4768-ad1c-0f3394fb5da2)\
 Output Palette
 
 If you leave it on automode it will try to automatically generate Map keys for you with no regard for how the export looks in the end. If you turn on Manual Palette designer it will pop open a window that lets you define your palette's keys yourself. Don't use
 space since that is auto-defined for any tile that is empty. If you use a duplicate key anywhere it will complain and probably crash.
-
+\
 ![image](https://github.com/user-attachments/assets/e147c2b2-b4ef-478a-b8af-0c3be89b74e4)
 
 I want to make it able to load CDDA palettes in the future so you don't always have to define your keys yourself. But that's a tall order since CDDA does some funky stuff with their JSON. Gonna need some time to cook up something that works.
-
-
-
-
