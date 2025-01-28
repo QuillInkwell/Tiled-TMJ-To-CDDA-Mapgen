@@ -15,13 +15,13 @@ namespace TMJ_To_Mapgen
 
 	class Tile
 	{
-		public int id;
+		public uint id;
 		public TileProperty[] properties;
 	}
 
 	class Tileset
 	{
 		public Tile[] tiles;
-		public int firstgid;
+		public uint firstgid;
 	}
 }

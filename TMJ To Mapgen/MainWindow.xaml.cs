@@ -15,7 +15,7 @@ namespace TMJ_To_Mapgen
 		public static string SYMBOLS = "!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~€ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèé";
 		public static int CDDA_OVERMAP_TILE_WIDTH = 24;
 
-		private Dictionary<int, string> CDDAConversionKey;
+		private Dictionary<uint, string> CDDAConversionKey;
 
 		private ManualPaletteDesigner paletteDesigner;
 		
@@ -144,7 +144,7 @@ namespace TMJ_To_Mapgen
 
 				for (int ii = 0; ii < map.layers[i].data.Length; ii++)
 				{
-					int[] combo = GetTerrainAndFurnitureFromMapPoint(i, ii, map);
+					uint[] combo = GetTerrainAndFurnitureFromMapPoint(i, ii, map);
 
 					TerrainFurnitureCombo point = new TerrainFurnitureCombo(combo[0], combo[1]);
 					newLayer.mapPoints.Add(point);
@@ -160,10 +160,10 @@ namespace TMJ_To_Mapgen
 			return uniqueCombos;
 		}
 
-		private int[] GetTerrainAndFurnitureFromMapPoint(int i, int ii, Map map)
+		private uint[] GetTerrainAndFurnitureFromMapPoint(int i, int ii, Map map)
 		{
 			//Loop through all points in layer
-			int terrainID = 0;
+			uint terrainID = 0;
 			if (map.layers[i + 1].data[ii] != 0)
 			{
 				// If Terrain has a value use that
@@ -175,9 +175,9 @@ namespace TMJ_To_Mapgen
 				terrainID = map.layers[i].data[ii];
 			}
 			// Set Furniture to whatever is in the array, even if that's a 0 as in nothing
-			int furnitureID = map.layers[i + 2].data[ii];
+			uint furnitureID = map.layers[i + 2].data[ii];
 			
-			int[] combo = new int[2];
+			uint[] combo = new uint[2];
 			combo[0] = terrainID;
 			combo[1] = furnitureID;
 			
@@ -197,7 +197,7 @@ namespace TMJ_To_Mapgen
 
 		private void CreateConversionKey(Map map)
 		{
-			CDDAConversionKey = new Dictionary<int, string>();
+			CDDAConversionKey = new Dictionary<uint, string>();
 			CDDAConversionKey.Add(0, "t_open_air");
 
 			foreach (Tileset tileset in map.tilesets)
@@ -217,17 +217,20 @@ namespace TMJ_To_Mapgen
 
 		private void AssignCDDAIds(List<TerrainFurnitureCombo> combos)
 		{
+			bool found = false; 
 			foreach (TerrainFurnitureCombo combo in combos)
 			{
 				if (combo.furnitureID != 0)
 				{
 					string furniture = "";
-					CDDAConversionKey.TryGetValue(combo.furnitureID, out furniture);
+					found = CDDAConversionKey.TryGetValue(combo.furnitureID, out furniture);
+					if (!found) throw new Exception("Error: Furniture Tile ID has no defined CDDA ID. Do you have tiles without ID properties or are any of your tiles rotated?");
 					combo.CDDAFurnitureID = furniture;
 				}
 
 				string terrain = "";
-				CDDAConversionKey.TryGetValue(combo.terrainID, out terrain);
+				found = CDDAConversionKey.TryGetValue(combo.terrainID, out terrain);
+				if (!found) throw new Exception("Error: Tile ID has no defined CDDA ID. Do you have tiles without ID properties or are any of your tiles rotated?");
 				combo.CDDATerrainID = terrain;
 			}
 		}

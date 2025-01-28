@@ -8,15 +8,15 @@ namespace TMJ_To_Mapgen
 {
 	public class TerrainFurnitureCombo
 	{
-		public int terrainID = 0;
-		public int furnitureID= 0;
+		public uint terrainID = 0;
+		public uint furnitureID= 0;
 		
 		public string CDDATerrainID = "";
 		public string CDDAFurnitureID = "";
 
 		public char mapSymbol = 'a';
 
-		public TerrainFurnitureCombo(int terrainID, int furnitureID)
+		public TerrainFurnitureCombo(uint terrainID, uint furnitureID)
 		{
 			this.terrainID = terrainID;
 			this.furnitureID = furnitureID;

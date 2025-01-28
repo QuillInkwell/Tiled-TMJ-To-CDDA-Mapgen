@@ -8,7 +8,7 @@ namespace TMJ_To_Mapgen
 {
 	class Layer
 	{
-		public int[] data;
+		public uint[] data;
 		public int height;
 		public int id;
 		public bool locked;
