@@ -252,7 +252,7 @@ namespace TMJ_To_Mapgen
 			}
 		}
 
-		public void Export(List<TerrainFurnitureCombo> combos)
+		public bool Export(List<TerrainFurnitureCombo> combos)
 		{
 			try
 			{
@@ -260,11 +260,13 @@ namespace TMJ_To_Mapgen
 
 				string palette = WritePalette(combos);
 				WriteMap(cddaMap, mapWidth, mapHeight, palette);
+
+				return true;
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message);
-				return;
+				return false;
 			}
 
 		}
@@ -317,6 +319,9 @@ namespace TMJ_To_Mapgen
 			saveFileDialog.Title = "Save the Mapgen File";
 
 			saveFileDialog.ShowDialog();
+
+			// If the Save Dialog was closed just abort the operation
+			if(saveFileDialog.FileName == "") return;
 
 			string mapContent = "";
 			try

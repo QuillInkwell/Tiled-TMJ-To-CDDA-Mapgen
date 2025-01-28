@@ -52,8 +52,9 @@ namespace TMJ_To_Mapgen
 				}
 			}
 
-			mainWindow.Export(combos);
-			Close();
+			bool exportSuccess = mainWindow.Export(combos);
+			
+			if (exportSuccess) Close();
 		}
 
 		private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
