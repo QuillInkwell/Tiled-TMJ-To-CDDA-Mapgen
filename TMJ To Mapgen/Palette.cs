@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows;
 
 namespace TMJ_To_Mapgen
 {
@@ -164,6 +165,7 @@ namespace TMJ_To_Mapgen
 			foreach(TerrainFurnitureCombo combo in combos)
 			{
 				terrain.Add(combo.mapSymbol.ToString(), combo.CDDATerrainID);
+				if (combo.CDDAFurnitureID == "") continue;
 				furniture.Add(combo.mapSymbol.ToString(), combo.CDDAFurnitureID);
 			}
 		}
@@ -173,7 +175,7 @@ namespace TMJ_To_Mapgen
 			JsonSerializerSettings settings = new JsonSerializerSettings();
 			settings.Formatting = Formatting.Indented;
 			settings.NullValueHandling = NullValueHandling.Ignore;
-			return JsonConvert.SerializeObject(this, settings );
+			return JsonConvert.SerializeObject(this, settings);
 		}
 	}
 }

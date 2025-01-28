@@ -16,7 +16,6 @@ namespace TMJ_To_Mapgen
 		public static int CDDA_OVERMAP_TILE_WIDTH = 24;
 
 		private Dictionary<int, string> CDDAConversionKey;
-		private Palette palette;
 
 		private ManualPaletteDesigner paletteDesigner;
 		
@@ -41,12 +40,49 @@ namespace TMJ_To_Mapgen
 
 			if (result == true)
 			{
-				string fileName = dialog.FileName;
-
-				string content = File.ReadAllText(fileName);
-				Map map = JsonConvert.DeserializeObject<Map>(content);
-
-				CreateConversionKey(map);
+				if (!File.Exists(dialog.FileName))
+				{
+					MessageBox.Show("Error: File not found!");
+					return;
+				}
+				
+				string content = "";
+				Map map = new Map();
+				
+				// Read the File
+				try
+				{
+					content = File.ReadAllText(dialog.FileName);
+				}
+				catch (Exception exception)
+				{
+					MessageBox.Show("Error unable to the read the selected file!");
+					MessageBox.Show(exception.Message);
+				}
+				
+				// Deserialize the Json
+				try
+				{
+					map = JsonConvert.DeserializeObject<Map>(content);
+				}
+				catch(Exception exception)
+				{
+					MessageBox.Show("Error: Unable to Deserialize the Map file. Are you Tiled Export settings correct?");
+					MessageBox.Show(exception.Message);
+				}
+				
+				// Create the Conversion Key
+				try
+				{
+					CreateConversionKey(map);
+				}
+				catch (Exception exception)
+				{
+					MessageBox.Show("Error: Unable to Create the Conversion Key. Do all tiles have defined IDs? Be sure your Embed Tileset option is turned on in your Tiled Export Settings.");
+					MessageBox.Show(exception.Message);
+				}
+				
+				// Create the Export
 				CreateExport(map);
 			}
 		}
@@ -56,7 +92,48 @@ namespace TMJ_To_Mapgen
 			cddaMap = new CDDA_Map();
 			mapWidth = map.width;
 			mapHeight = map.height;
+			List<TerrainFurnitureCombo> uniqueCombos;
+			try
+			{
+				uniqueCombos = GetAllCombosFromMap(map);
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Error: Failed to read combos from Map!");
+				MessageBox.Show(e.Message);
+				return;
+			}
+			try
+			{
+				AssignCDDAIds(uniqueCombos);
+				uniqueCombos = uniqueCombos.OrderBy(o => o.CDDATerrainID).ToList();
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Error: Failed to assign CDDA Map keys to combos using Conversion Key.");
+				MessageBox.Show(e.Message);
+				return;
+			}
 
+			// Export right away unless we plan to design with manual designetr
+			if (!(bool)ManualPaletteCheckbox.IsChecked)
+			{
+				AutoAssignMapKeys(uniqueCombos, cddaMap);
+				Export(uniqueCombos);
+			}
+			else
+			{
+				OpenPaletteDesigner(uniqueCombos);
+			}
+		}
+
+		private List<TerrainFurnitureCombo> GetAllCombosFromMap(Map map)
+		{
+			if(map.layers.Count() == 0|| map.layers.Count() % 3 != 0)
+			{
+				throw new Exception("Incorrect number of the layers on map detected. You must have exactly 3 layers for each z-level on your map. (In order from top to bottom: Fill_Terrain, Terrain, Furntiure)");
+			}
+			
 			List<TerrainFurnitureCombo> uniqueCombos = new List<TerrainFurnitureCombo>();
 
 			for (int i = 0; i < map.layers.Length; i = i + 3)
@@ -73,26 +150,14 @@ namespace TMJ_To_Mapgen
 					newLayer.mapPoints.Add(point);
 
 					if (IsUniqueCombo(uniqueCombos, point))
+
 					{
 						uniqueCombos.Add(point);
 					}
 				}
 			}
 
-			AssignCDDAIds(uniqueCombos);
-			uniqueCombos = uniqueCombos.OrderBy(o => o.CDDATerrainID).ToList();
-			
-
-			// Export right away unless we plan to 
-			if (!(bool)ManualPaletteCheckbox.IsChecked)
-			{
-				AutoAssignMapKeys(uniqueCombos, cddaMap);
-				Export(uniqueCombos);
-			}
-			else
-			{
-				OpenPaletteDesigner(uniqueCombos);
-			}
+			return uniqueCombos;
 		}
 
 		private int[] GetTerrainAndFurnitureFromMapPoint(int i, int ii, Map map)
@@ -189,37 +254,91 @@ namespace TMJ_To_Mapgen
 
 		public void Export(List<TerrainFurnitureCombo> combos)
 		{
-			AssignAllOtherKeys(combos);
+			try
+			{
+				AssignAllOtherKeys(combos);
 
-			WritePalette(combos);
-			WriteMap(cddaMap, mapWidth, mapHeight);
+				string palette = WritePalette(combos);
+				WriteMap(cddaMap, mapWidth, mapHeight, palette);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+				return;
+			}
+
 		}
 
 		private void AssignAllOtherKeys(List<TerrainFurnitureCombo> combos)
 		{
-			foreach (CDDA_Map_Layer layer in cddaMap.cddaMapLayers)
+			try
 			{
-				foreach (TerrainFurnitureCombo combo in layer.mapPoints)
+				foreach (CDDA_Map_Layer layer in cddaMap.cddaMapLayers)
 				{
-					foreach (TerrainFurnitureCombo otherCombo in combos)
+					foreach (TerrainFurnitureCombo combo in layer.mapPoints)
 					{
-						// assign all other entires symbols based on the key
-						if (otherCombo.IsSameCombo(combo)) combo.mapSymbol = otherCombo.mapSymbol;
+						foreach (TerrainFurnitureCombo otherCombo in combos)
+						{
+							// assign all other entires symbols based on the key
+							if (otherCombo.IsSameCombo(combo)) combo.mapSymbol = otherCombo.mapSymbol;
+						}
 					}
 				}
 			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Failed to assign Map keys to export");
+				throw (e);
+			}
+
 		}
 
-		private void WritePalette(List<TerrainFurnitureCombo> uniqueCombos)
+		private string WritePalette(List<TerrainFurnitureCombo> uniqueCombos)
 		{
-			Palette p = new Palette();
-			p.SetTerrains(uniqueCombos);
-			File.WriteAllText("C:\\Users\\Marc\\OneDrive\\Desktop\\outputPalette.json", p.WritePalette());
+			try
+			{
+				Palette p = new Palette();
+				p.SetTerrains(uniqueCombos);
+				return p.WritePalette();
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Failed to write the palette file.");
+				throw (e);
+			}
 		}
 
-		private void WriteMap(CDDA_Map map, int mapWidth, int mapHeight)
+		private void WriteMap(CDDA_Map map, int mapWidth, int mapHeigh, string palette)
 		{
-			File.WriteAllText("C:\\Users\\Marc\\OneDrive\\Desktop\\outputMap.json", map.WriteMap(mapWidth, mapHeight));
+			Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+			saveFileDialog.AddExtension = true;
+			saveFileDialog.DefaultExt = ".json";
+			saveFileDialog.Filter = "Json Files |*.json";
+			saveFileDialog.Title = "Save the Mapgen File";
+
+			saveFileDialog.ShowDialog();
+
+			string mapContent = "";
+			try
+			{
+				mapContent = map.WriteMap(mapWidth, mapHeight);
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Error: Failed to Parse Map into string!");
+				MessageBox.Show(e.Message);
+				return;
+			}
+			try
+			{
+				File.WriteAllText(saveFileDialog.FileName, mapContent + "\n" + palette);
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show("Failed to write the Map File. Dose the program have access to write in that directory?");
+				throw (e);
+			}
+			
 		}
 
 	}
